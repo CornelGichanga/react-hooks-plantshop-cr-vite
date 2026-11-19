@@ -6,29 +6,30 @@ function NewPlantForm({ onAddPlant }) {
   const [price, setPrice] = useState("");
 
   function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const newPlantData = {
-      name: name,
-      image: image,
-      price: parseFloat(price),
-    };
+  const newPlant = {
+    name: name,
+    image: image,
+    price: price, // Keep as a string instead of parseFloat(price)
+  };
 
-    fetch("http://localhost:6001/plants", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPlantData),
-    })
-      .then((res) => res.json())
-      .then((createdPlant) => {
-        onAddPlant(createdPlant);
-        setName("");
-        setImage("");
-        setPrice("");
-      });
-  }
+  fetch("http://localhost:6001/plants", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newPlant),
+  })
+    .then((res) => res.json())
+    .then((savedPlant) => {
+      onAddPlant(savedPlant);
+      setName("");
+      setImage("");
+      setPrice("");
+    });
+}
+
 
   return (
     <div className="new-plant-form">
